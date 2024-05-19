@@ -3,6 +3,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { getCsrfToken } from '../utils/getCsrfToken';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Navbar from '../components/Navbar';
 
 const Order = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -16,12 +19,14 @@ const Order = () => {
         e.preventDefault();
         if (!phoneNumber || !address) {
             setError('Phone number and address are required.');
+            toast.error('Phone number and address are required.');
             return;
         }
 
         const token = localStorage.getItem('token');
         if (!token) {
             setError('User not authenticated');
+            toast.error('User not authenticated, please login.');
             return;
         }
 
@@ -43,11 +48,15 @@ const Order = () => {
         } catch (err) {
             console.error(err);
             setError('Failed to create order. Please try again.');
+            toast.error('Failed to create order. Please make sure you logged in.');
         }
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-4">
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <h1 className="text-4xl font-bold mb-6 neon-text">Create Order</h1>
             <form onSubmit={handleSubmit} className="max-w-xl w-full">
                 <div className="mb-4">
@@ -74,6 +83,7 @@ const Order = () => {
                 <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline neon-button">Submit Order</button>
             </form>
         </div>
+        </>
     );
 };
 

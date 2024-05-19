@@ -6,23 +6,26 @@ import { Product } from '../../types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../../components/Navbar';
+import axios from 'axios';
 
+
+interface User{
+  username: string;
+}
 interface Review {
   id: number;
-  username: string;
-  comment: string;
+  user: User;
+  review: string;
   rating: number;
 }
 
 interface ReviewForm {
-  username: string;
-  comment: string;
+  review: string;
   rating: number;
 }
 
 const initialReviewFormState: ReviewForm = {
-  username: '',
-  comment: '',
+  review: '',
   rating: 1,
 };
 
@@ -48,6 +51,7 @@ const ProductDetail = () => {
       setProduct(response.data);
     } catch (error) {
       console.error('Error fetching product details:', error);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -55,7 +59,11 @@ const ProductDetail = () => {
 
   const fetchProductReviews = async (id: string) => {
     try {
-      const response = await axiosInstance.get(`/ecoMarket/product-list/${id}/reviews`);
+      const response = await axiosInstance.get(`/ecoMarket/product-list/${id}/add-review`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token-based authentication
+        }
+      });
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching product reviews:', error);
@@ -72,9 +80,15 @@ const ProductDetail = () => {
     if (!product_id) return;
 
     try {
-      await axiosInstance.post(`/ecoMarket/product-list/${product_id}/add-review`, reviewForm);
+      const response = await axiosInstance.post(`/ecoMarket/product-list/${product_id}/add-review`, {
+        ...reviewForm,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token-based authentication
+        }
+      });
       toast.success('Review added successfully!');
-      setReviews(prev => [...prev, { ...reviewForm, id: Date.now() }]);
+      setReviews(prev => [...prev, response.data.review]);
       setReviewForm(initialReviewFormState);
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -103,39 +117,31 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col lg:flex-row lg:items-start lg:space-x-6">
       <ToastContainer />
       <div className="lg:w-2/3">
-        <h1 className="text-4xl font-bold mb-6 neon-text">{product.title}</h1>
-        <img src={product.image} alt={product.title} className="w-full max-w-lg h-80 object-cover rounded mb-6" />
-        <p className="text-2xl font-bold text-purple-400 mb-6">Price: {product.price}₸</p>
+        <h1 className="text-4xl font-bold mb-6 neon-text">{product?.title}</h1>
+        <img src={product?.image} alt={product?.title} className="w-full max-w-lg h-80 object-cover rounded mb-6" />
+        <p className="text-2xl font-bold text-purple-400 mb-6">Price: {product?.price}₸</p>
+        <p className="text-lg text-gray-300 mb-4">{product?.description}</p>
         <button onClick={handleAddToCart} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded neon-button">
           Add to Cart
         </button>
-        <p className="text-lg text-gray-300 mb-4">{product.description}</p>
       </div>
       <div className="lg:w-1/3 mt-8 lg:mt-0">
         <h2 className="text-3xl font-bold mb-4 neon-text">Reviews</h2>
         <form onSubmit={handleSubmitReview} className="space-y-4">
-          <input
-            type="text"
-            name="username"
-            value={reviewForm.username}
-            onChange={handleInputChange}
-            placeholder="Your name"
-            className="w-full p-2 rounded bg-gray-700 text-white"
-            required
-          />
           <textarea
-            name="comment"
-            value={reviewForm.comment}
-            onChange={handleInputChange}
+            name="review"
+            value={reviewForm.review}
+            onChange={(e) => setReviewForm(prev => ({ ...prev, review: e.target.value }))}
             placeholder="Your review"
             className="w-full p-2 rounded bg-gray-700 text-white"
             required
           />
+          Rate:
           <input
             type="number"
             name="rating"
             value={reviewForm.rating}
-            onChange={handleInputChange}
+            onChange={(e) => setReviewForm(prev => ({ ...prev, rating: parseInt(e.target.value, 10) }))}
             min="1"
             max="5"
             className="w-full p-2 rounded bg-gray-700 text-white"
@@ -148,9 +154,9 @@ const ProductDetail = () => {
         <div className="space-y-4">
           {reviews.map((review) => (
             <div key={review.id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold">{review.username}</h3>
+              <h3 className="text-xl font-semibold">User:{review.user.username}</h3>
               <p className="text-yellow-400">Rating: {review.rating} / 5</p>
-              <p className="text-gray-300">{review.comment}</p>
+              <p className="text-gray-300">{review.review}</p>
             </div>
           ))}
         </div>

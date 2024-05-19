@@ -1,6 +1,7 @@
 // components/Navbar.tsx
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLogin, AiOutlineShoppingCart } from 'react-icons/ai';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-900 shadow-2xl px-8">
       <div>
-        <h1 className="text-3xl font-bold neon-text shadow-2xl">TechnoTreasures</h1>
+        <h1 className="text-3xl font-bold neon-text shadow-2xl"><Link href='/'>TechnoTreasures</Link></h1>
       </div>
       <div className="flex items-center">
         {!isSignedIn && (

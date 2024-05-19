@@ -3,6 +3,7 @@ import axiosInstance from '../utils/axiosInstance';  // Ensure the path to axios
 import { Product } from '../types';
 import { useRouter } from 'next/router';
 import { getCsrfToken } from '../utils/getCsrfToken';
+import Navbar from '../components/Navbar';
 
 const Cart = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -48,6 +49,8 @@ const Cart = () => {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-4">
             <h1 className="text-4xl font-bold mb-6 neon-text">Your Shopping Cart</h1>
             {products.length > 0 ? (
@@ -91,6 +94,7 @@ const Cart = () => {
                 <p className="text-xl">Your cart is empty.</p>
             )}
         </div>
+        </>
     );
 };
 
