@@ -8,13 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
 
-
-interface User{
-  username: string;
-}
 interface Review {
   id: number;
-  user: User;
+  username: string;
   review: string;
   rating: number;
 }
@@ -88,7 +84,7 @@ const ProductDetail = () => {
         }
       });
       toast.success('Review added successfully!');
-      setReviews(prev => [...prev, response.data.review]);
+      setReviews(prev => [...prev, { ...reviewForm, id: Date.now(), username: ""  }]); // Mock username; replace with actual data if available
       setReviewForm(initialReviewFormState);
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -154,7 +150,7 @@ const ProductDetail = () => {
         <div className="space-y-4">
           {reviews.map((review) => (
             <div key={review.id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold">User:{review.user.username}</h3>
+              <h3 className="text-xl font-semibold">{review.username}</h3>
               <p className="text-yellow-400">Rating: {review.rating} / 5</p>
               <p className="text-gray-300">{review.review}</p>
             </div>
