@@ -33,8 +33,7 @@ const ProductList = () => {
             <h3 className="text-lg font-semibold mb-2 neon-text">{product.title}</h3>
             <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-4"/>
             <p className="text-sm text-gray-400">Category: {product.category.name}</p>
-            <p className="font-bold mb-1 text-purple-400">{product.price}₸</p>
-            <p className="text-gray-300 text-sm">{product.description}</p>
+            <p className="font-bold mb-1 text-purple-400">{product.price}$</p>
           </div>
         </Link>
       ))}

@@ -14,9 +14,22 @@ interface Review {
   rating: number;
 }
 
+interface ReviewForm {
+  username: string;
+  comment: string;
+  rating: number;
+}
+
+const initialReviewFormState: ReviewForm = {
+  username: '',
+  comment: '',
+  rating: 1,
+};
+
 const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewForm, setReviewForm] = useState<ReviewForm>(initialReviewFormState);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { product_id } = router.query;
@@ -49,31 +62,35 @@ const ProductDetail = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setReviewForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!product_id) return;
+
+    try {
+      await axiosInstance.post(`/ecoMarket/product-list/${product_id}/add-review`, reviewForm);
+      toast.success('Review added successfully!');
+      setReviews(prev => [...prev, { ...reviewForm, id: Date.now() }]);
+      setReviewForm(initialReviewFormState);
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      toast.error('Failed to add review. Please try again.');
+    }
+  };
+
   const handleAddToCart = async () => {
     if (!product_id) return;
 
     try {
       await axiosInstance.post(`/ecoMarket/product-list/${product_id}/add-to-cart`);
-      toast.success('Product added to cart successfully!', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.success('Product added to cart successfully!');
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      toast.error('Failed to add product to cart. Please try again.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error('Failed to add product to cart. Please try again.');
     }
   };
 
@@ -88,14 +105,46 @@ const ProductDetail = () => {
       <div className="lg:w-2/3">
         <h1 className="text-4xl font-bold mb-6 neon-text">{product.title}</h1>
         <img src={product.image} alt={product.title} className="w-full max-w-lg h-80 object-cover rounded mb-6" />
-        <p className="text-lg text-gray-300 mb-4">{product.description}</p>
         <p className="text-2xl font-bold text-purple-400 mb-6">Price: {product.price}₸</p>
         <button onClick={handleAddToCart} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded neon-button">
           Add to Cart
         </button>
+        <p className="text-lg text-gray-300 mb-4">{product.description}</p>
       </div>
       <div className="lg:w-1/3 mt-8 lg:mt-0">
         <h2 className="text-3xl font-bold mb-4 neon-text">Reviews</h2>
+        <form onSubmit={handleSubmitReview} className="space-y-4">
+          <input
+            type="text"
+            name="username"
+            value={reviewForm.username}
+            onChange={handleInputChange}
+            placeholder="Your name"
+            className="w-full p-2 rounded bg-gray-700 text-white"
+            required
+          />
+          <textarea
+            name="comment"
+            value={reviewForm.comment}
+            onChange={handleInputChange}
+            placeholder="Your review"
+            className="w-full p-2 rounded bg-gray-700 text-white"
+            required
+          />
+          <input
+            type="number"
+            name="rating"
+            value={reviewForm.rating}
+            onChange={handleInputChange}
+            min="1"
+            max="5"
+            className="w-full p-2 rounded bg-gray-700 text-white"
+            required
+          />
+          <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+            Submit Review
+          </button>
+        </form>
         <div className="space-y-4">
           {reviews.map((review) => (
             <div key={review.id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
