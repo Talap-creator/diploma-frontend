@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.neon-text {
+  color: #f5a623;
+  text-shadow: 0 0 0.5px #f5a623, 0 0 1px #f5a623, 0 0 1.5px #f5a623;
+}
+
+.neon-button {
+  box-shadow: 0 0 1px #7d4fbd, 0 0 2px #7d4fbd, 0 0 3px #7d4fbd;
+}
+
+.shadow-2xl {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 20px 25px rgba(0, 0, 0, 0.1), 0 30px 35px rgba(0, 0, 0, 0.1);
+}
