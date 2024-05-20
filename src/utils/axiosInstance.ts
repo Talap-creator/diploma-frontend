@@ -3,7 +3,7 @@ import { getCsrfToken } from './getCsrfToken';
 
 
 // Define a base URL using environment variables
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://sea-lion-app-vsdn6.ondigitalocean.app';
 
 // Create an instance of axios
 const axiosInstance = axios.create({
