@@ -32,7 +32,7 @@ const Cart = () => {
 
     const handleDelete = async (productId: number) => {
         try {
-            await axiosInstance.delete(`http://localhost:8000/ecoMarket/cart/delete/${productId}`, {
+            await axiosInstance.delete(`https://sea-lion-app-vsdn6.ondigitalocean.app//ecoMarket/cart/delete/${productId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCsrfToken() || ''

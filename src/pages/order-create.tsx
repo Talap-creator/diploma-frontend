@@ -31,7 +31,7 @@ const Order = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/ecoMarket/order-create/', {
+            const response = await axios.post('https://sea-lion-app-vsdn6.ondigitalocean.app/ecoMarket/order-create/', {
                 phone_number: phoneNumber,
                 address: address,
                 reference_point: referencePoint,

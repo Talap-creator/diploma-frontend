@@ -31,7 +31,7 @@ const OrdersComponent: React.FC = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8000/ecoMarket/order-list/', {
+        const response = await fetch('https://sea-lion-app-vsdn6.ondigitalocean.app/ecoMarket/order-list/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
