@@ -1,11 +1,11 @@
-// pages/ProductList.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { fetchProducts } from '../services/api';
 import { Product } from '../types';
 import Link from 'next/link';
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const tallestBoxHeightRef = useRef<number>(0);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -25,18 +25,33 @@ const ProductList = () => {
     loadProducts();
   }, []);
 
+  useEffect(() => {
+    // Determine the height of the tallest box
+    const productBoxes = document.querySelectorAll('.product-box');
+    productBoxes.forEach(box => {
+      tallestBoxHeightRef.current = Math.max(tallestBoxHeightRef.current, box.clientHeight);
+    });
+    // Set the height of all boxes to the height of the tallest box
+    productBoxes.forEach(box => {
+      box.style.height = `${tallestBoxHeightRef.current}px`;
+    });
+  }, [products]);
+
   return (
-    <div className="min-h-screen bg-gray-900 p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-12">
+    <div className="bg-white flex flex-col p-8 gap-4">
+      <div className="text-2xl">Хит Продаж</div>
+      <div className="min-h-screen bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {products.map((product, index) => (
         <Link key={index} href={`/products/${product.id}`}>
-          <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105">
-            <h3 className="text-lg font-semibold mb-2 neon-text">{product.title}</h3>
+          <div className="product-box bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105">
+            <h3 className="text-lg font-semibold mb-2" style={{ color: '#333' }}>{product.title}</h3>
             <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-4"/>
-            <p className="text-sm text-gray-400">Category: {product.category.name}</p>
-            <p className="font-bold mb-1 text-purple-400">{product.price}$</p>
+            <p className="text-sm" style={{ color: '#666' }}>Category: {product.category.name}</p>
+            <p className="font-bold mb-1" style={{ color: '#f5a623' }}>{product.price}₽</p>
           </div>
         </Link>
       ))}
+    </div>
     </div>
   );
 };

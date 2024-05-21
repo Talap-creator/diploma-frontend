@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import axiosInstance from '@/utils/axiosInstance';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const SignIn = () => {
     const [username, setUsername] = useState('');
@@ -18,8 +20,9 @@ const SignIn = () => {
                 username,
                 password
             });
-            const { access } = response.data;
-            localStorage.setItem('token', access);
+            const { access, refresh } = response.data;
+            localStorage.setItem('accessToken', access);
+            localStorage.setItem('refreshToken', refresh)
             router.push('/');
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {
@@ -31,12 +34,14 @@ const SignIn = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <>
+        <Navbar/>
+                    <div className="flex justify-center items-center min-h-screen bg-white">
             <div className="w-full max-w-xs">
                 <h1 className="mb-4 text-3xl font-semibold text-center neon-text">Sign In</h1>
-                <form onSubmit={handleLogin} className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <form onSubmit={handleLogin} className="bg-orange-text shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="mb-4">
-                        <label htmlFor="username" className="block text-gray-400 text-sm font-bold mb-2">
+                        <label htmlFor="username" className="block text-white text-sm font-bold mb-2">
                             Username:
                         </label>
                         <input
@@ -44,11 +49,11 @@ const SignIn = () => {
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="password" className="block text-gray-400 text-sm font-bold mb-2">
+                        <label htmlFor="password" className="block text-white text-sm font-bold mb-2">
                             Password:
                         </label>
                         <input
@@ -56,7 +61,7 @@ const SignIn = () => {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 text-gray-300 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
                     {error && <p className="text-red-500 text-xs italic">{error}</p>}
@@ -64,7 +69,7 @@ const SignIn = () => {
                         <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline neon-button" type="submit">
                             Login
                         </button>
-                        <Link href="/sign-up" className='inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-700'>
+                        <Link href="/sign-up" className='inline-block align-baseline font-bold text-sm text-white hover:text-purple-700'>
                            
                                 Do not have an account? Sign Up
 
@@ -73,6 +78,8 @@ const SignIn = () => {
                 </form>
             </div>
         </div>
+        <Footer></Footer>        
+        </>
     );
 };
 

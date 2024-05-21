@@ -1,20 +1,23 @@
+// utils/axiosInstance.ts
 import axios from 'axios';
-import { getCsrfToken } from './getCsrfToken';
+import Cookies from 'js-cookie';
 
-
-// Define a base URL using environment variables
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
-
-// Create an instance of axios
 const axiosInstance = axios.create({
-  baseURL: baseURL,
-  withCredentials: true, 
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'X-CSRFToken': getCsrfToken() || '',  // Ensures a string is passed; update as needed for handling undefined
-  }
+  },
 });
 
-
+axiosInstance.interceptors.request.use((config) => {
+  const csrfToken = Cookies.get('csrftoken');
+  if (csrfToken) {
+    config.headers['X-CSRFToken'] = csrfToken;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 export default axiosInstance;
