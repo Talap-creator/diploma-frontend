@@ -1,4 +1,5 @@
 // pages/OrdersComponent.tsx
+import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { Product } from '@/types';
 import { useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ const OrdersComponent: React.FC = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) {
         setError('No token found');
         setLoading(false);
@@ -62,17 +63,17 @@ const OrdersComponent: React.FC = () => {
   return (
     <>
     <Navbar/>
-    <div className="min-h-screen bg-gray-900 text-white p-12">
+    <div className="min-h-screen bg-white p-12">
       <h1 className="text-4xl font-bold mb-6 neon-text">Orders</h1>
       <ul className="space-y-4">
         {orders.filter(order => order.items.length > 0).map((order, index) => (
-          <li key={`${order.id}-${index}`} className="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <li key={`${order.id}-${index}`} className="bg-white p-4 rounded-lg border border-2 border-orange-text border-dashed shadow-lg">
             <h2 className="text-2xl font-semibold mb-2">Order Number: {order.order_number}</h2>
             <div className="space-y-2">
               <h3 className="text-xl">Items:</h3>
               <ul className="pl-4">
                 {order.items.map((item, index) => (
-                  <li key={`${item.id}-${index}`} className="border-l-4 border-purple-600 pl-2">
+                  <li key={`${item.id}-${index}`} className="border-l-4 border-orange-text pl-2">
                     <p>Quantity: {item.quantity}</p>
                     <p>Product: {item.product.title}</p>
                   </li>
@@ -83,6 +84,7 @@ const OrdersComponent: React.FC = () => {
         ))}
       </ul>
     </div>
+    <Footer/>
     </>
   );
 };

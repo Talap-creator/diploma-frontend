@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { getCsrfToken } from '../utils/getCsrfToken';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../components/Navbar';
+import Cookies from 'js-cookie'
+import Footer from '../components/Footer';
 
 const Order = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -23,7 +24,7 @@ const Order = () => {
             return;
         }
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
         if (!token) {
             setError('User not authenticated');
             toast.error('User not authenticated, please login.');
@@ -40,7 +41,7 @@ const Order = () => {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCsrfToken() || '',
+                    'X-CSRFToken': Cookies.get('csrftoken') || '',
                     'Authorization': `Bearer ${token}`,
                 }
             });
@@ -55,34 +56,35 @@ const Order = () => {
     return (
         <>
         <Navbar/>
-        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-4">
+        <div className="min-h-screen bg-white text-white flex flex-col items-center p-4">
             <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <h1 className="text-4xl font-bold mb-6 neon-text">Create Order</h1>
             <form onSubmit={handleSubmit} className="max-w-xl w-full">
                 <div className="mb-4">
                     <label htmlFor="phoneNumber" className="block text-gray-400 text-sm font-bold mb-2">Phone Number:</label>
                     <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:shadow-outline" required />
+                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 leading-tight focus:outline-none focus:shadow-outline" required />
                 </div>
                 <div className="mb-4">
                     <label htmlFor="address" className="block text-gray-400 text-sm font-bold mb-2">Address:</label>
                     <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:shadow-outline" required />
+                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 leading-tight focus:outline-none focus:shadow-outline" required />
                 </div>
                 <div className="mb-4">
                     <label htmlFor="referencePoint" className="block text-gray-400 text-sm font-bold mb-2">Reference Point:</label>
                     <input type="text" id="referencePoint" value={referencePoint} onChange={(e) => setReferencePoint(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:shadow-outline" />
+                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 leading-tight focus:outline-none focus:shadow-outline" />
                 </div>
                 <div className="mb-4">
                     <label htmlFor="comments" className="block text-gray-400 text-sm font-bold mb-2">Comments:</label>
                     <textarea id="comments" value={comments} onChange={(e) => setComments(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-800 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                        className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                 </div>
                 {error && <p className="text-red-500 text-xs italic">{error}</p>}
-                <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline neon-button">Submit Order</button>
+                <button type="submit" className="bg-orange-text hover:bg-orange-text text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit Order</button>
             </form>
         </div>
+        <Footer/>
         </>
     );
 };
