@@ -8,6 +8,7 @@ import CsrfTokenSetter from '../../components/CsrfTokenSetter';
 import Footer from '../../components/Footer';
 import axiosInstance from '../../utils/axiosInstance';
 import axiosInstanceWithAuth from '@/utils/axiosInstanceWithAuth';
+import Image from 'next/image';
 
 interface Product {
   id: string;
@@ -108,7 +109,7 @@ const ProductDetail = () => {
         <ToastContainer />
         <div className="bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-3xl font-bold mb-3">{product?.title}</h1>
-          <img src={product?.image} alt={product?.title} className="w-full max-w-lg rounded-lg mb-4" />
+          <Image src={product?.image} alt={product?.title} className="w-full max-w-lg rounded-lg mb-4" />
           <p className="text-xl text-orange-500 mb-2">Price: ${product?.price}</p>
           <p className="mb-4">{product?.description}</p>
           <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>

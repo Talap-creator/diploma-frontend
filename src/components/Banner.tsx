@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Image from 'next/image';
 
 interface CarouselBannerProps {}
 
@@ -27,7 +28,7 @@ const CarouselBanner: React.FC<CarouselBannerProps> = () => {
       <Slider {...settings}>
         {photos.map((photo, index) => (
           <div key={index}>
-            <img src={photo} alt={`Slide ${index}`} className="carousel-image" />
+            <Image src={photo} alt={`Slide ${index}`} className="carousel-image" />
           </div>
         ))}
       </Slider>

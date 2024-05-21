@@ -25,20 +25,20 @@ const Navbar = () => {
         <span className="ml-6">Москва <span className=' text-gray-800 text-opacity-75'>+7 (495) 780-20-02</span></span>
       </div>
       <div className="flex items-center">
-        <a href="/cart" className="flex items-center mr-6">
+        <Link href="/cart" className="flex items-center mr-6">
           <AiOutlineShoppingCart size="1.5em" />
           <span className="ml-2">Корзина</span>
-        </a>
+        </Link>
         {isSignedIn ? (
           <button onClick={handleLogout} className="flex items-center">
             <AiOutlineLogout size="1.5em" />
             <span className="ml-2">Выйти</span>
           </button>
         ) : (
-          <a href="/sign-in" className="flex items-center">
+          <Link href="/sign-in" className="flex items-center">
             <AiOutlineLogin size="1.5em" />
             <span className="ml-2">Войти</span>
-          </a>
+          </Link>
         )}
       </div>
     </nav>
