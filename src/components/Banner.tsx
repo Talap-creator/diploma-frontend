@@ -28,7 +28,7 @@ const CarouselBanner: React.FC<CarouselBannerProps> = () => {
       <Slider {...settings}>
         {photos.map((photo, index) => (
           <div key={index}>
-            <Image src={photo} alt={`Slide ${index}`} className="carousel-image" />
+            <img src={photo} alt={`Slide ${index}`} className="carousel-image" />
           </div>
         ))}
       </Slider>

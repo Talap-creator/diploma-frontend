@@ -34,7 +34,7 @@ const CategoryList: React.FC = () => {
         <Link href={`/categories/${category.id}`} key={category.id}>
             <div className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition duration-300">
               <p className="text-lg font-semibold" style={{ color: '#333' }}>{category.name}</p>
-              <Image src={category.image} alt={category.name} className="w-full h-40 object-cover rounded mt-2"/>
+              <img src={category.image} alt={category.name} className="w-full h-40 object-cover rounded mt-2"/>
               <div className="text-sm" style={{ color: '#666' }}>Explore Now</div>
             </div>
         </Link>

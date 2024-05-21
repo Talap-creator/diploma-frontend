@@ -43,7 +43,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ products }) => {
         <Link key={index} href={`/products/${product.id}`}>
           <div className="product-box bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105">
             <h3 className="text-lg font-semibold mb-2" style={{ color: '#333' }}>{product.title}</h3>
-            <Image src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-4"/>
+            <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-4"/>
             <p className="text-sm" style={{ color: '#666' }}>Category: {product.category.name}</p>
             <p className="font-bold mb-1" style={{ color: '#f5a623' }}>{product.price}₽</p>
           </div>
