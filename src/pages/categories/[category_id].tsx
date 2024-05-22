@@ -7,7 +7,7 @@ import { Product } from '@/types/index';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-import styles from './CategoryPage.module.css'; // Assuming you have CSS module support
+import styles from './CategoryPage.module.css';
 
 interface CategoryPageProps {
   products: Product[];
@@ -15,23 +15,26 @@ interface CategoryPageProps {
 
 const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
   const router = useRouter();
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
   const tallestBoxHeightRef = useRef<number>(0);
 
   useEffect(() => {
-    const productBoxes = document.querySelectorAll('.product-box');
-    productBoxes.forEach(box => {
-      const htmlBox = box as HTMLElement;
-      tallestBoxHeightRef.current = Math.max(tallestBoxHeightRef.current, htmlBox.clientHeight);
-    });
-    productBoxes.forEach(box => {
-      const htmlBox = box as HTMLElement;
-      htmlBox.style.height = `${tallestBoxHeightRef.current}px`;
-    });
+    // Check if it's not in fallback and products are loaded
+    if (!router.isFallback && products) {
+      const productBoxes = document.querySelectorAll('.product-box');
+      productBoxes.forEach(box => {
+        const htmlBox = box as HTMLElement;
+        tallestBoxHeightRef.current = Math.max(tallestBoxHeightRef.current, htmlBox.clientHeight);
+      });
+      productBoxes.forEach(box => {
+        const htmlBox = box as HTMLElement;
+        htmlBox.style.height = `${tallestBoxHeightRef.current}px`;
+      });
+    }
   }, [products]);
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -56,7 +59,6 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
 export default CategoryPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Example: Fetch category IDs dynamically if your API supports it
   const categoriesResponse = await axios.get('https://your-api/categories');
   const paths = categoriesResponse.data.map(cat => ({ params: { category_id: String(cat.id) } }));
 
