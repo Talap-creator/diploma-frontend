@@ -24,6 +24,7 @@ export const useVerifyAndRefreshToken = () => {
         }
       } else {
         console.log('Token is valid.');
+        console.log('Token:', token);
       }
     };
 

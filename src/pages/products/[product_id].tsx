@@ -75,7 +75,7 @@ const ProductDetail = () => {
     if (!product_id) return;
 
     try {
-      await axiosInstance.post(`/ecoMarket/product-list/${product_id}/add-to-cart`);
+      await axiosInstanceWithAuth.post(`/ecoMarket/product-list/${product_id}/add-to-cart`);
       toast.success('Product added to cart successfully!');
     } catch (error) {
       console.error('Error adding product to cart:', error);

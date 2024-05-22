@@ -41,7 +41,6 @@ const Order = () => {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': Cookies.get('csrftoken') || '',
                     'Authorization': `Bearer ${token}`,
                 }
             });
