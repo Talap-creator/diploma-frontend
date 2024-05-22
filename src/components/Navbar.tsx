@@ -22,7 +22,7 @@ const Navbar = () => {
     <nav className="flex justify-between items-center p-4 bg-white shadow-xl px-8 ">
       <div className="flex items-center gap-8">
         <h1 className="text-3xl font-bold neon-text"><Link href='/'>TechnoTreasures</Link></h1>
-        <span className="ml-6">Москва <span className=' text-gray-800 text-opacity-75'>+7 (495) 780-20-02</span></span>
+        <span className="ml-6">Астана <span className=' text-gray-800 text-opacity-75'>+7 (495) 780-20-02</span></span>
       </div>
       <div className="flex items-center">
         <Link href="/cart" className="flex items-center mr-6">

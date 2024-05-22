@@ -79,7 +79,7 @@ const ProductDetail = () => {
       toast.success('Product added to cart successfully!');
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      toast.error('Failed to add product to cart. Please try again.');
+      toast.error('Failed to add product to cart. Please make sure you are logged in.');
     }
   };
 
@@ -108,7 +108,7 @@ const ProductDetail = () => {
       <div className="container mx-auto mt-10 bg-white">
         <ToastContainer />
         <div className="bg-white shadow-lg rounded-lg p-8">
-          <h1 className="text-3xl font-bold mb-3">{product?.title}</h1>
+          <h1 className="text-3xl text-orange-text font-bold mb-3">{product?.title}</h1>
           <img src={product?.image} alt={product?.title} className="w-full max-w-lg rounded-lg mb-4" />
           <p className="text-xl text-orange-500 mb-2">Price: ${product?.price}</p>
           <p className="mb-4">{product?.description}</p>
