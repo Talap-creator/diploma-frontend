@@ -7,10 +7,14 @@ import { Product } from '@/types/index';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-import styles from './CategoryPage.module.css';
 
 interface CategoryPageProps {
   products: Product[];
+}
+
+interface Category {
+  id: number;
+  name: string;
 }
 
 const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
@@ -18,8 +22,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
   const tallestBoxHeightRef = useRef<number>(0);
 
   useEffect(() => {
-    // Check if it's not in fallback and products are loaded
-    if (!router.isFallback && products) {
+    if (!router.isFallback && products.length) {
       const productBoxes = document.querySelectorAll('.product-box');
       productBoxes.forEach(box => {
         const htmlBox = box as HTMLElement;
@@ -30,7 +33,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
         htmlBox.style.height = `${tallestBoxHeightRef.current}px`;
       });
     }
-  }, [products]);
+  }, [products, router.isFallback]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -39,14 +42,14 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
   return (
     <>
       <Navbar/>
-      <div className="min-h-screen bg-white p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-12">
+      <div className="min-h-screen bg-white p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {products.map((product, index) => (
           <Link key={index} href={`/products/${product.id}`} passHref>
-            <a className={styles.productBox}>
-              <h3 className={styles.productTitle}>{product.title}</h3>
-              <Image src={product.image} alt={product.title} width={500} height={300} className={styles.productImage}/>
-              <p className={styles.productCategory}>Category: {product.category.name}</p>
-              <p className={styles.productPrice}>{product.price}₽</p>
+            <a className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800">{product.title}</h3>
+              <Image src={product.image} alt={product.title} width={500} height={300} className="w-full h-40 object-cover rounded mb-4"/>
+              <p className="text-sm text-gray-600">Category: {product.category.name}</p>
+              <p className="font-bold text-orange-500 mb-1">{product.price}₽</p>
             </a>
           </Link>
         ))}
@@ -59,8 +62,10 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ products }) => {
 export default CategoryPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const categoriesResponse = await axios.get('https://your-api/categories');
-  const paths = categoriesResponse.data.map(cat => ({ params: { category_id: String(cat.id) } }));
+  const categoriesResponse = await axios.get<Category[]>('https://sea-lion-app-vsdn6.ondigitalocean.app/ecoMarket/product-category-list/');
+  const paths = categoriesResponse.data.map((cat: Category) => ({
+    params: { category_id: String(cat.id) }
+  }));
 
   return {
     paths,
