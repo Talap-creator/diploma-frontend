@@ -69,7 +69,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
             <h3 className="text-lg font-semibold mb-2" style={{ color: '#333' }}>{product.title}</h3>
             <img src={product.image} alt={product.title} className="w-full h-40 object-cover rounded mb-4"/>
             <p className="text-sm" style={{ color: '#666' }}>Category: {product.category.name}</p>
-            <p className="font-bold mb-1" style={{ color: '#f5a623' }}>{product.price}₽</p>
+            <p className="font-bold mb-1" style={{ color: '#f5a623' }}>{product.price}₸</p>
           </div>
         </Link>
       ))}
