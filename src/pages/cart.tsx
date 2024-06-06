@@ -82,7 +82,7 @@ const Cart = () => {
                                     <tr key={`${product.id}-${index}`} className="border-b border-orange-300">
                                         <td className="py-2 px-4">{product.product.title}</td>
                                         <td className="py-2 px-4">{product.quantity}</td>
-                                        <td className="py-2 px-4">${product.product.price}</td>
+                                        <td className="py-2 px-4">{product.product.price}₸</td>
                                         <td className="py-2 px-4">
                                             <button
                                                 onClick={() => handleDelete(product.id)}
