@@ -110,14 +110,14 @@ const ProductDetail = () => {
         <div className="bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-3xl text-orange-text font-bold mb-3">{product?.title}</h1>
           <img src={product?.image} alt={product?.title} className="w-full max-w-lg rounded-lg mb-4" />
-          <p className="text-xl text-orange-500 mb-2">Price: ${product?.price}</p>
+          <p className="text-xl text-orange-500 mb-2">Price: ₸{product?.price}</p>
           <p className="mb-4">{product?.description}</p>
           <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
             Add to Cart
           </button>
         </div>
         <div className="mt-8 flex flex-col gap-4">
-          <h2 className="text-2xl font-bold mb-3">Reviews</h2>
+          <h2 className="text-2xl font-bold mb-3">Обзоры</h2>
           <form onSubmit={handleSubmitReview} className="bg-white p-4 rounded-lg shadow mt-6">
             <textarea
               name="review"
@@ -138,7 +138,7 @@ const ProductDetail = () => {
               required
             />
             <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded">
-              Submit Review
+              Подтвердить обзор
             </button>
           </form>
           {reviews.map(review => (

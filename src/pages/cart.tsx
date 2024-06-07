@@ -65,16 +65,16 @@ const Cart = () => {
         <>
             <Navbar/>
             <div className="min-h-screen bg-white flex flex-col items-center p-4">
-                <h1 className="text-4xl font-bold mb-6">Your Shopping Cart</h1>
+                <h1 className="text-4xl font-bold mb-6">Ваша Корзина</h1>
                 {products.length > 0 ? (
                     <div className="w-full max-w-4xl">
                         <table className="w-full table-auto bg-white rounded-lg shadow-lg">
                             <thead>
                                 <tr className="bg-orange-500 text-gray-900">
-                                    <th className="py-2 px-4">Product Name</th>
-                                    <th className="py-2 px-4">Quantity</th>
-                                    <th className="py-2 px-4">Price per Unit</th>
-                                    <th className="py-2 px-4">Actions</th>
+                                    <th className="py-2 px-4">Наименование товара</th>
+                                    <th className="py-2 px-4">Количество</th>
+                                    <th className="py-2 px-4">Цена за единицу</th>
+                                    <th className="py-2 px-4">Действия</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,16 +95,16 @@ const Cart = () => {
                                 ))}
                             </tbody>
                         </table>
-                        <h2 className="text-2xl font-semibold mt-6 text-orange-500">Total: ${totalPrice}</h2>
+                        <h2 className="text-2xl font-semibold mt-6 text-orange-500">Общий ценник: ₸{totalPrice}</h2>
                         <button
                             onClick={handleOrderClick}
                             className="mt-4 py-2 px-6 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg shadow-md transition duration-300"
                         >
-                            Place Order
+                            Разместить заказ
                         </button>
                     </div>
                 ) : (
-                    <p className="text-xl">Your cart is empty.</p>
+                    <p className="text-xl">Ваша корзина пуста</p>
                 )}
             </div>
             <Footer/>

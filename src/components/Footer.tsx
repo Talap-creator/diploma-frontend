@@ -6,9 +6,9 @@ const Footer: React.FC = () => {
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
         <div className="text-center md:text-left mb-4 md:mb-0">
           <p className="text-lg font-semibold">Techno Market</p>
-          <p className="text-sm">123 Street Name, City, Country</p>
+          <p className="text-sm">Астана </p>
           <p className="text-sm">Email: info@example.com</p>
-          <p className="text-sm">Phone: +123 456 789</p>
+          <p className="text-sm">Номер телефона: +7 (495) 780-20-02</p>
         </div>
       </div>
     </footer>
